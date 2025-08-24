@@ -1,0 +1,10 @@
+F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\bin\Debug\TcpAssistant.exe.config
+F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\bin\Debug\TcpAssistant.exe
+F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\bin\Debug\TcpAssistant.pdb
+F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\obj\Debug\TcpAssistant.csproj.AssemblyReference.cache
+F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\obj\Debug\TcpAssistant.Form1.resources
+F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\obj\Debug\TcpAssistant.Properties.Resources.resources
+F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\obj\Debug\TcpAssistant.csproj.GenerateResource.cache
+F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\obj\Debug\TcpAssistant.csproj.CoreCompileInputs.cache
+F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\obj\Debug\TcpAssistant.exe
+F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\obj\Debug\TcpAssistant.pdb
