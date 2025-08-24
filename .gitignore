@@ -1,0 +1,25 @@
+# 忽略 Visual Studio 配置和缓存
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# 忽略编译输出
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+
+# 忽略日志和临时文件
+*.log
+*.tmp
+*.bak
+
+# 忽略用户特定文件
+*.userprefs
+*.pubxml
+
+# 忽略测试结果
+[Tt]est[Rr]esult/
+[Bb]uild[Ll]og.*
