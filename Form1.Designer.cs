@@ -1,4 +1,4 @@
-﻿namespace TcpAssistant
+namespace TcpAssistant
 {
     partial class Form1
     {
@@ -36,6 +36,7 @@
             this.port_txb = new System.Windows.Forms.TextBox();
             this.IP_txb = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.SaveData_btn = new System.Windows.Forms.Button();
             this.reclear_btn = new System.Windows.Forms.Button();
             this.reHex_chb = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -47,6 +48,8 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.send_rtb = new System.Windows.Forms.RichTextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.AnalysisData_chb = new System.Windows.Forms.CheckBox();
             this.Humidity_txt = new System.Windows.Forms.TextBox();
             this.Speed_txt = new System.Windows.Forms.TextBox();
             this.Pressure_txt = new System.Windows.Forms.TextBox();
@@ -56,7 +59,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.AnalysisData_chb = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -123,6 +125,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.SaveData_btn);
             this.groupBox2.Controls.Add(this.reclear_btn);
             this.groupBox2.Controls.Add(this.reHex_chb);
             this.groupBox2.Location = new System.Drawing.Point(12, 273);
@@ -132,11 +135,21 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "接收配置";
             // 
+            // SaveData_btn
+            // 
+            this.SaveData_btn.Location = new System.Drawing.Point(136, 105);
+            this.SaveData_btn.Name = "SaveData_btn";
+            this.SaveData_btn.Size = new System.Drawing.Size(90, 42);
+            this.SaveData_btn.TabIndex = 2;
+            this.SaveData_btn.Text = "接收数据";
+            this.SaveData_btn.UseVisualStyleBackColor = true;
+            this.SaveData_btn.Click += new System.EventHandler(this.SaveData_btn_Click);
+            // 
             // reclear_btn
             // 
-            this.reclear_btn.Location = new System.Drawing.Point(136, 66);
+            this.reclear_btn.Location = new System.Drawing.Point(136, 54);
             this.reclear_btn.Name = "reclear_btn";
-            this.reclear_btn.Size = new System.Drawing.Size(75, 23);
+            this.reclear_btn.Size = new System.Drawing.Size(90, 35);
             this.reclear_btn.TabIndex = 1;
             this.reclear_btn.Text = "清空";
             this.reclear_btn.UseVisualStyleBackColor = true;
@@ -166,9 +179,9 @@
             // 
             // sendclear_btn
             // 
-            this.sendclear_btn.Location = new System.Drawing.Point(137, 134);
+            this.sendclear_btn.Location = new System.Drawing.Point(136, 114);
             this.sendclear_btn.Name = "sendclear_btn";
-            this.sendclear_btn.Size = new System.Drawing.Size(75, 23);
+            this.sendclear_btn.Size = new System.Drawing.Size(90, 43);
             this.sendclear_btn.TabIndex = 7;
             this.sendclear_btn.Text = "清空";
             this.sendclear_btn.UseVisualStyleBackColor = true;
@@ -236,6 +249,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.label7);
             this.groupBox6.Controls.Add(this.AnalysisData_chb);
             this.groupBox6.Controls.Add(this.Humidity_txt);
             this.groupBox6.Controls.Add(this.Speed_txt);
@@ -251,6 +265,25 @@
             this.groupBox6.TabIndex = 5;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "报文解析";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(17, 351);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(235, 15);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "帧头（1）+数据（16）+帧尾（1）";
+            // 
+            // AnalysisData_chb
+            // 
+            this.AnalysisData_chb.AutoSize = true;
+            this.AnalysisData_chb.Location = new System.Drawing.Point(28, 300);
+            this.AnalysisData_chb.Name = "AnalysisData_chb";
+            this.AnalysisData_chb.Size = new System.Drawing.Size(119, 19);
+            this.AnalysisData_chb.TabIndex = 8;
+            this.AnalysisData_chb.Text = "启动数据解析";
+            this.AnalysisData_chb.UseVisualStyleBackColor = true;
             // 
             // Humidity_txt
             // 
@@ -316,16 +349,6 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "温度：";
             // 
-            // AnalysisData_chb
-            // 
-            this.AnalysisData_chb.AutoSize = true;
-            this.AnalysisData_chb.Location = new System.Drawing.Point(28, 300);
-            this.AnalysisData_chb.Name = "AnalysisData_chb";
-            this.AnalysisData_chb.Size = new System.Drawing.Size(119, 19);
-            this.AnalysisData_chb.TabIndex = 8;
-            this.AnalysisData_chb.Text = "启动数据解析";
-            this.AnalysisData_chb.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -383,6 +406,8 @@
         private System.Windows.Forms.TextBox Pressure_txt;
         private System.Windows.Forms.TextBox Temperature_txt;
         private System.Windows.Forms.CheckBox AnalysisData_chb;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button SaveData_btn;
     }
 }
 

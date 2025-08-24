@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "F:\\StudyDate\\CsharpDate\\ScharpProject\\TcpAssistant\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1C8E8D06-FCF7-4E12-BE68-0CCF73E2B898}|TcpAssistant.csproj|f:\\studydate\\csharpdate\\scharpproject\\tcpassistant\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{1C8E8D06-FCF7-4E12-BE68-0CCF73E2B898}|TcpAssistant.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{1C8E8D06-FCF7-4E12-BE68-0CCF73E2B898}|TcpAssistant.csproj|f:\\studydate\\csharpdate\\scharpproject\\tcpassistant\\dataparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C8E8D06-FCF7-4E12-BE68-0CCF73E2B898}|TcpAssistant.csproj|solutionrelative:dataparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1C8E8D06-FCF7-4E12-BE68-0CCF73E2B898}|TcpAssistant.csproj|f:\\studydate\\csharpdate\\scharpproject\\tcpassistant\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1C8E8D06-FCF7-4E12-BE68-0CCF73E2B898}|TcpAssistant.csproj|F:\\StudyDate\\CsharpDate\\ScharpProject\\TcpAssistant\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1C8E8D06-FCF7-4E12-BE68-0CCF73E2B898}|TcpAssistant.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1C8E8D06-FCF7-4E12-BE68-0CCF73E2B898}|TcpAssistant.csproj|F:\\StudyDate\\CsharpDate\\ScharpProject\\TcpAssistant\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{1C8E8D06-FCF7-4E12-BE68-0CCF73E2B898}|TcpAssistant.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,8 +22,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 314,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DataParser.cs",
+              "DocumentMoniker": "F:\\StudyDate\\CsharpDate\\ScharpProject\\TcpAssistant\\DataParser.cs",
+              "RelativeDocumentMoniker": "DataParser.cs",
+              "ToolTip": "F:\\StudyDate\\CsharpDate\\ScharpProject\\TcpAssistant\\DataParser.cs*",
+              "RelativeToolTip": "DataParser.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T13:12:45.788Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -28,14 +45,14 @@
               "RelativeDocumentMoniker": "Form1.cs",
               "ToolTip": "F:\\StudyDate\\CsharpDate\\ScharpProject\\TcpAssistant\\Form1.cs",
               "RelativeToolTip": "Form1.cs",
-              "ViewState": "AgIAAN8AAAAAAAAAAAAkwPIAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAI4BAAAAAAAAAAAkwKoBAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-24T08:41:37.411Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Form1.cs [\u8BBE\u8BA1]",
               "DocumentMoniker": "F:\\StudyDate\\CsharpDate\\ScharpProject\\TcpAssistant\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",

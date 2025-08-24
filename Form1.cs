@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -23,9 +24,16 @@ namespace TcpAssistant
         private List<byte> receiveBuffer = new List<byte>();// 接收缓冲区
         private byte[] sendBuffer = new byte[1024];// 发送缓冲区
 
-        private Queue<byte> bufferQueue = null;//解析数据队列
-        private int frameLenth = 0; //数据帧长度
+    
+        // 数据解析器
+        private DataParser dataParser = new DataParser();
+        private int totalPacketsReceived = 0; // 接收到的数据包总数
+        private int validPacketsReceived = 0; // 有效数据包总数
+        private int invalidPacketsReceived = 0; // 无效数据包总数
 
+        private List<SensorData> ReceivedData = new List<SensorData>();//保存的数据
+
+        public static string folder = ConfigurationManager.AppSettings["folder"].ToString();//存储文件夹
 
         public Form1()
         {
@@ -264,6 +272,7 @@ namespace TcpAssistant
                             else
                             {
                                 // 解析数据
+                                ProcessSensorData(actualData, clientEndPoint);
                             }
 
                         }));
@@ -390,6 +399,11 @@ namespace TcpAssistant
         private void reclear_btn_Click(object sender, EventArgs e)
         {
             receive_rtb.Clear();
+            // 如果启用了数据解析，也清空解析器缓冲区
+            if (AnalysisData_chb.Checked)
+            {
+                ClearDataParserBuffer();
+            }
         }
 
         private void sendclear_btn_Click(object sender, EventArgs e)
@@ -397,6 +411,120 @@ namespace TcpAssistant
             send_rtb.Clear();
         }
 
-       
+        #region 数据解析功能
+        /// <summary>
+        /// 处理传感器数据
+        /// </summary>
+        /// <param name="data">接收到的数据</param>
+        /// <param name="clientEndPoint">客户端地址</param>
+        private void ProcessSensorData(byte[] data, string clientEndPoint)
+        {
+            try
+            {
+                // 显示原始十六进制数据
+                string hexData = Transform.ToHexString(data, " ");
+                receive_rtb.AppendText($"[{DateTime.Now:HH:mm:ss}] 来自 {clientEndPoint}: {hexData}\r\n");
+                
+                // 解析数据
+                List<SensorData> sensorDataList = dataParser.ParseData(data);
+                
+                if (sensorDataList != null && sensorDataList.Count > 0)
+                {
+                    // 有效数据包计数
+                    validPacketsReceived += sensorDataList.Count;
+                    totalPacketsReceived += sensorDataList.Count;
+                    
+                    // 更新最新的传感器数据到UI
+                    SensorData latestData = sensorDataList[sensorDataList.Count - 1];
+                    UpdateSensorDisplay(latestData);
+                    
+                    // 显示解析结果
+                    receive_rtb.AppendText($"[{DateTime.Now:HH:mm:ss}] 解析成功 - 有效数据包: {sensorDataList.Count}\r\n");
+                    foreach (var sensorData in sensorDataList)
+                    {
+                        receive_rtb.AppendText($"  {sensorData}\r\n");
+                    }
+                }
+                else
+                {
+                    // 无效数据包计数
+                    invalidPacketsReceived++;
+                    totalPacketsReceived++;
+                    receive_rtb.AppendText($"[{DateTime.Now:HH:mm:ss}] 数据包解析失败或数据不完整\r\n");
+                    
+                    // 输出调试信息
+                    System.Diagnostics.Debug.WriteLine($"数据包解析失败: {hexData}");
+                }
+                
+                receive_rtb.ScrollToCaret();
+                
+                // 显示统计信息
+                ShowStatistics();
+            }
+            catch (Exception ex)
+            {
+                receive_rtb.AppendText($"[{DateTime.Now:HH:mm:ss}] 数据处理错误: {ex.Message}\r\n");
+                System.Diagnostics.Debug.WriteLine($"数据处理异常: {ex.Message}\n{ex.StackTrace}");
+                invalidPacketsReceived++;
+                totalPacketsReceived++;
+                ShowStatistics();
+            }
+        }
+
+        /// <summary>
+        /// 更新传感器数据显示
+        /// </summary>
+        /// <param name="data">传感器数据</param>
+        private void UpdateSensorDisplay(SensorData data)
+        {
+            // 在UI线程中更新文本框
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<SensorData>(UpdateSensorDisplay), data);
+                return;
+            }
+
+            Temperature_txt.Text = data.Temperature.ToString("F2");
+            Pressure_txt.Text = data.Pressure.ToString("F2");
+            Speed_txt.Text = data.Speed.ToString("F2");
+            Humidity_txt.Text = data.Humidity.ToString("F2");
+        }
+
+        /// <summary>
+        /// 显示统计信息
+        /// </summary>
+        private void ShowStatistics()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(ShowStatistics));
+                return;
+            }
+
+            // 在接收区显示统计信息
+            receive_rtb.AppendText($"[统计] 总包数: {totalPacketsReceived}, 有效: {validPacketsReceived}, 无效: {invalidPacketsReceived}, 缓冲区: {dataParser.BufferSize}字节\r\n");
+        }
+
+        /// <summary>
+        /// 清空数据解析器缓冲区
+        /// </summary>
+        private void ClearDataParserBuffer()
+        {
+            dataParser.ClearBuffer();
+            totalPacketsReceived = 0;
+            validPacketsReceived = 0;
+            invalidPacketsReceived = 0;
+            receive_rtb.AppendText($"[{DateTime.Now:HH:mm:ss}] 数据解析缓冲区已清空\r\n");
+        }
+
+
+
+
+        #endregion
+
+        private void SaveData_btn_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
