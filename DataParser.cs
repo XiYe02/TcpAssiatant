@@ -14,7 +14,7 @@ namespace TcpAssistant
         public float Pressure { get; set; }     // 压力
         public float Speed { get; set; }        // 速度
         public float Humidity { get; set; }     // 湿度
-        public DateTime Timestamp { get; set; } // 时间戳
+    
 
         public override string ToString()
         {
@@ -148,10 +148,8 @@ namespace TcpAssistant
             try
             {
                 // 创建传感器数据对象
-                SensorData data = new SensorData
-                {
-                    Timestamp = DateTime.Now
-                };
+                SensorData data = new SensorData();
+                
 
                 // 解析温度数据 (4字节浮点数)
                 data.Temperature = BitConverter.ToSingle(frame, 1);

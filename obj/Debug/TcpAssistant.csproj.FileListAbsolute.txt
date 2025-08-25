@@ -8,3 +8,6 @@ F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\obj\Debug\TcpAssistant.csproj
 F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\obj\Debug\TcpAssistant.csproj.CoreCompileInputs.cache
 F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\obj\Debug\TcpAssistant.exe
 F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\obj\Debug\TcpAssistant.pdb
+F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\bin\Debug\Newtonsoft.Json.dll
+F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\bin\Debug\Newtonsoft.Json.xml
+F:\StudyDate\CsharpDate\ScharpProject\TcpAssistant\obj\Debug\TcpAssis.7799AB75.Up2Date

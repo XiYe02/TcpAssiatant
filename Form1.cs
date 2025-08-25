@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,6 +12,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace TcpAssistant
 {
@@ -31,10 +33,10 @@ namespace TcpAssistant
         private int validPacketsReceived = 0; // 有效数据包总数
         private int invalidPacketsReceived = 0; // 无效数据包总数
 
-        private List<SensorData> ReceivedData = new List<SensorData>();//保存的数据
+
 
         public static string folder = ConfigurationManager.AppSettings["folder"].ToString();//存储文件夹
-
+        public static List<SensorData> SaveData = new List<SensorData>();//保存数据
         public Form1()
         {
             InitializeComponent();
@@ -44,6 +46,9 @@ namespace TcpAssistant
         #region 初始化界面
         private void InitializeUI()
         {
+           
+
+
             // 设置默认值 - 服务器监听地址和端口
             IP_txb.Text = "192.168.31.1";  // 监听所有网络接口
             port_txb.Text = "777";    // 默认端口777，与SSCOM客户端匹配
@@ -427,6 +432,7 @@ namespace TcpAssistant
                 
                 // 解析数据
                 List<SensorData> sensorDataList = dataParser.ParseData(data);
+                SaveData.AddRange(sensorDataList);
                 
                 if (sensorDataList != null && sensorDataList.Count > 0)
                 {
@@ -522,9 +528,165 @@ namespace TcpAssistant
 
         #endregion
 
+       
+
+
+        private void SaveToFile()
+        {
+            try
+            {
+                // 确保文件夹存在
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                
+                // 创建文件名（Data+日期时间）
+                string fileName = $"Data_{DateTime.Now:yyyyMMdd_HHmmss}.json";
+                string filePath = Path.Combine(folder, fileName);
+                
+                // 创建要保存的数据列表，包含一分钟内接收的所有数据
+                var dataList = new List<Dictionary<string, float>>();
+                
+                // 将每条传感器数据添加到列表中
+                foreach (var sensorData in SaveData)
+                {
+                    var dataItem = new Dictionary<string, float>
+                    {
+                        { "Temperature", sensorData.Temperature },
+                        { "Pressure", sensorData.Pressure },
+                        { "Speed", sensorData.Speed },
+                        { "Humidity", sensorData.Humidity }
+                    };
+                    dataList.Add(dataItem);
+                }
+                
+                // 序列化并保存到文件
+                string json = JsonConvert.SerializeObject(dataList, Formatting.Indented);
+                File.WriteAllText(filePath, json);
+                
+                // 显示保存成功消息
+                receive_rtb.AppendText($"[{DateTime.Now:HH:mm:ss}] 已保存{SaveData.Count}条数据到文件: {fileName}\r\n");
+                receive_rtb.ScrollToCaret();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"保存数据时出错: {ex.Message}", "保存错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                receive_rtb.AppendText($"[{DateTime.Now:HH:mm:ss}] 保存数据时出错: {ex.Message}\r\n");
+            }
+        }
+
+        // 保存数据计数器和定时器
+        private int saveCount = 0;
+        private System.Windows.Forms.Timer saveTimer = new System.Windows.Forms.Timer();
+        private System.Windows.Forms.Timer countdownTimer = new System.Windows.Forms.Timer();
+        private int remainingSeconds = 60; // 剩余秒数
+        
         private void SaveData_btn_Click(object sender, EventArgs e)
         {
-
+            // 初始化计数器和定时器
+            saveCount = 0;
+            saveTimer.Stop();
+            saveTimer.Interval = 20000; // 1分钟 = 60000毫秒
+            saveTimer.Tick += SaveTimer_Tick;
+            
+            // 初始化倒计时定时器
+            countdownTimer.Stop();
+            countdownTimer.Interval = 1000; // 1秒 = 1000毫秒
+            countdownTimer.Tick += CountdownTimer_Tick;
+            
+            // 重置剩余时间
+            remainingSeconds = 20;
+            UpdateTimesLabel();
+            
+            // 清空之前的数据，准备接收新数据
+            SaveData.Clear();
+            
+            // 显示开始收集数据的消息
+            receive_rtb.AppendText($"[{DateTime.Now:HH:mm:ss}] 开始收集数据，将在1分钟后进行第1次保存\r\n");
+            receive_rtb.ScrollToCaret();
+            
+            // 启动定时器，1分钟后进行第一次保存
+            saveTimer.Start();
+            countdownTimer.Start();
+        }
+        
+        private void CountdownTimer_Tick(object sender, EventArgs e)
+        {
+            // 每秒减少剩余时间
+            remainingSeconds--;
+            
+            // 更新界面显示
+            UpdateTimesLabel();
+            
+            // 如果倒计时结束，停止倒计时定时器
+            if (remainingSeconds <= 0)
+            {
+                countdownTimer.Stop();
+            }
+        }
+        
+        private void UpdateTimesLabel()
+        {
+            // 更新剩余时间显示
+            times_lab.Text = $"{remainingSeconds}秒";
+        }
+        
+        private void SaveTimer_Tick(object sender, EventArgs e)
+        {
+            // 定时器触发时，暂停定时器并询问用户是否继续
+            saveTimer.Stop();
+            countdownTimer.Stop();
+            SaveAndContinue();
+        }
+        
+        private void SaveAndContinue()
+        {
+            // 保存当前数据
+            if (SaveData.Count > 0)
+            {
+                SaveToFile();//将数据写进文件
+                SaveData.Clear(); // 保存后清空数据
+                saveCount++;
+                
+                receive_rtb.AppendText($"[{DateTime.Now:HH:mm:ss}] 已完成第 {saveCount} 次数据保存\r\n");
+                
+                // 检查是否已完成三次保存
+                if (saveCount >= 3)
+                {
+                    receive_rtb.AppendText($"[{DateTime.Now:HH:mm:ss}] 已完成全部3次数据保存任务\r\n");
+                    MessageBox.Show("数据保存完成！", "完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    times_lab.Text = $"0秒";
+                    return; // 结束保存过程
+                }
+                
+                // 询问用户是否继续
+                DialogResult result = MessageBox.Show(
+                    $"已完成第 {saveCount} 次数据保存，是否继续下一次保存？", 
+                    "继续保存", 
+                    MessageBoxButtons.YesNo, 
+                    MessageBoxIcon.Question);
+                
+                if (result == DialogResult.Yes)
+                {
+                    // 重置倒计时
+                    remainingSeconds = 20;
+                    UpdateTimesLabel();
+                    
+                    // 继续下一次保存，启动定时器
+                    saveTimer.Start();
+                    countdownTimer.Start();
+                    receive_rtb.AppendText($"[{DateTime.Now:HH:mm:ss}] 继续收集数据，将在1分钟后进行第 {saveCount + 1} 次保存\r\n");
+                }
+                else
+                {
+                    receive_rtb.AppendText($"[{DateTime.Now:HH:mm:ss}] 用户取消了后续保存操作\r\n");
+                    // 重置倒计时显示
+                    times_lab.Text = "0秒";
+                }
+            }
+            else
+            {
+                MessageBox.Show("没有可保存的数据！请确保已接收并解析了传感器数据。", "无数据", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

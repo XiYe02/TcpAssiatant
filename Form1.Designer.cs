@@ -29,6 +29,9 @@ namespace TcpAssistant
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.open_btn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -59,12 +62,16 @@ namespace TcpAssistant
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label8 = new System.Windows.Forms.Label();
+            this.times_lab = new System.Windows.Forms.Label();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -128,7 +135,7 @@ namespace TcpAssistant
             this.groupBox2.Controls.Add(this.SaveData_btn);
             this.groupBox2.Controls.Add(this.reclear_btn);
             this.groupBox2.Controls.Add(this.reHex_chb);
-            this.groupBox2.Location = new System.Drawing.Point(12, 273);
+            this.groupBox2.Location = new System.Drawing.Point(12, 289);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(282, 185);
             this.groupBox2.TabIndex = 1;
@@ -141,7 +148,7 @@ namespace TcpAssistant
             this.SaveData_btn.Name = "SaveData_btn";
             this.SaveData_btn.Size = new System.Drawing.Size(90, 42);
             this.SaveData_btn.TabIndex = 2;
-            this.SaveData_btn.Text = "接收数据";
+            this.SaveData_btn.Text = "保存数据";
             this.SaveData_btn.UseVisualStyleBackColor = true;
             this.SaveData_btn.Click += new System.EventHandler(this.SaveData_btn_Click);
             // 
@@ -170,7 +177,7 @@ namespace TcpAssistant
             this.groupBox3.Controls.Add(this.sendclear_btn);
             this.groupBox3.Controls.Add(this.sendHex_chb);
             this.groupBox3.Controls.Add(this.send_btn);
-            this.groupBox3.Location = new System.Drawing.Point(12, 469);
+            this.groupBox3.Location = new System.Drawing.Point(12, 498);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(282, 208);
             this.groupBox3.TabIndex = 2;
@@ -210,9 +217,9 @@ namespace TcpAssistant
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.receive_rtb);
-            this.groupBox4.Location = new System.Drawing.Point(328, 12);
+            this.groupBox4.Location = new System.Drawing.Point(322, 12);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(563, 436);
+            this.groupBox4.Size = new System.Drawing.Size(779, 317);
             this.groupBox4.TabIndex = 3;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "接收区";
@@ -223,16 +230,16 @@ namespace TcpAssistant
             this.receive_rtb.Dock = System.Windows.Forms.DockStyle.Fill;
             this.receive_rtb.Location = new System.Drawing.Point(3, 21);
             this.receive_rtb.Name = "receive_rtb";
-            this.receive_rtb.Size = new System.Drawing.Size(557, 412);
+            this.receive_rtb.Size = new System.Drawing.Size(773, 293);
             this.receive_rtb.TabIndex = 0;
             this.receive_rtb.Text = "";
             // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.send_rtb);
-            this.groupBox5.Location = new System.Drawing.Point(328, 469);
+            this.groupBox5.Location = new System.Drawing.Point(325, 711);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(563, 208);
+            this.groupBox5.Size = new System.Drawing.Size(776, 122);
             this.groupBox5.TabIndex = 4;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "发送区";
@@ -243,12 +250,14 @@ namespace TcpAssistant
             this.send_rtb.Dock = System.Windows.Forms.DockStyle.Fill;
             this.send_rtb.Location = new System.Drawing.Point(3, 21);
             this.send_rtb.Name = "send_rtb";
-            this.send_rtb.Size = new System.Drawing.Size(557, 184);
+            this.send_rtb.Size = new System.Drawing.Size(770, 98);
             this.send_rtb.TabIndex = 0;
             this.send_rtb.Text = "";
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.times_lab);
+            this.groupBox6.Controls.Add(this.label8);
             this.groupBox6.Controls.Add(this.label7);
             this.groupBox6.Controls.Add(this.AnalysisData_chb);
             this.groupBox6.Controls.Add(this.Humidity_txt);
@@ -259,9 +268,9 @@ namespace TcpAssistant
             this.groupBox6.Controls.Add(this.label5);
             this.groupBox6.Controls.Add(this.label4);
             this.groupBox6.Controls.Add(this.label3);
-            this.groupBox6.Location = new System.Drawing.Point(908, 27);
+            this.groupBox6.Location = new System.Drawing.Point(1119, 33);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(258, 660);
+            this.groupBox6.Size = new System.Drawing.Size(256, 660);
             this.groupBox6.TabIndex = 5;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "报文解析";
@@ -349,11 +358,50 @@ namespace TcpAssistant
             this.label3.TabIndex = 0;
             this.label3.Text = "温度：";
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 6000;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(25, 416);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(82, 15);
+            this.label8.TabIndex = 10;
+            this.label8.Text = "剩余时间：";
+            // 
+            // times_lab
+            // 
+            this.times_lab.AutoSize = true;
+            this.times_lab.Location = new System.Drawing.Point(127, 416);
+            this.times_lab.Name = "times_lab";
+            this.times_lab.Size = new System.Drawing.Size(15, 15);
+            this.times_lab.TabIndex = 11;
+            this.times_lab.Text = "0";
+            // 
+            // chart1
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(322, 335);
+            this.chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(779, 370);
+            this.chart1.TabIndex = 6;
+            this.chart1.Text = "chart1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1190, 706);
+            this.ClientSize = new System.Drawing.Size(1387, 949);
+            this.Controls.Add(this.chart1);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -372,6 +420,7 @@ namespace TcpAssistant
             this.groupBox5.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -408,6 +457,9 @@ namespace TcpAssistant
         private System.Windows.Forms.CheckBox AnalysisData_chb;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button SaveData_btn;
+        private System.Windows.Forms.Label times_lab;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }
 
